@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import dj_database_url  # para suporte opcional ao PostgreSQL no futuro
 
 # Caminho base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,12 +11,12 @@ SECRET_KEY = 'django-insecure-w#-dhu7^f2kiiq9)($qb)av!83-@9_++t*jjwv=$*_^p*-7@@z
 # ❗ Em produção, o DEBUG deve ser False
 DEBUG = False
 
-# Host autorizado: altere para seu domínio real depois
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'seusite.com.br', 'www.seusite.com.br']
+# Host autorizado
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'seusite.com.br', 'www.seusite.com.br', '*']
 
 # Aplicações instaladas
 INSTALLED_APPS = [
-    'admin_interface',  # ← deve vir antes do django.contrib.admin
+    'admin_interface',  # deve vir antes do django.contrib.admin
     'colorfield',
 
     'django.contrib.admin',
@@ -40,6 +41,7 @@ CRISPY_FAIL_SILENTLY = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← necessário para servir arquivos estáticos no Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,7 +69,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cadastro_veiculos.wsgi.application'
 
-# Banco de dados: SQLite (mais fácil para início)
+# Banco de dados: SQLite (padrão local)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -90,8 +92,11 @@ USE_I18N = True
 USE_TZ = True
 
 # Arquivos estáticos
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # ← importante para produção
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# WhiteNoise — otimização para produção
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Arquivos de mídia
 MEDIA_URL = '/media/'
