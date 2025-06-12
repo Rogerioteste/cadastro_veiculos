@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-import dj_database_url  # para suporte opcional ao PostgreSQL no futuro
+import dj_database_url  # suporte ao PostgreSQL (Render)
 
 # Caminho base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,7 +41,7 @@ CRISPY_FAIL_SILENTLY = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← necessário para servir arquivos estáticos no Render
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # serve arquivos estáticos em produção
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,12 +69,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cadastro_veiculos.wsgi.application'
 
-# Banco de dados: SQLite (padrão local)
+# Banco de dados: SQLite local, PostgreSQL no Render se DATABASE_URL estiver definido
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
 
 # Validação de senha
@@ -87,15 +88,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Configuração de idioma e fuso horário
 LANGUAGE_CODE = 'pt-br'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
 # Arquivos estáticos
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# WhiteNoise — otimização para produção
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Arquivos de mídia
