@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro Enviado com Sucesso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card-sucesso {
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      background: #fff;
+      text-align: center;
+    }
+    .btn-whatsapp {
+      background-color: #25D366;
+      border: none;
+      color: white;
+    }
+    .btn-whatsapp:hover {
+      background-color: #1ebc59;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="card-sucesso">
+  <h4 class="text-success mb-3">
+    ✅ Cadastro enviado com sucesso!
+  </h4>
+  <p class="lead">
+    Agradecemos por se cadastrar. Em breve nossa equipe poderá entrar em contato.
+  </p>
+  <a href="https://wa.me/5511999999999" target="_blank" class="btn btn-whatsapp px-4 py-2 mt-3">
+    Falar com a equipe via WhatsApp
+  </a>
+</div>
+
+</body>
+</html>
