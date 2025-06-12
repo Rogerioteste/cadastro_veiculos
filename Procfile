@@ -1,1 +1,1 @@
-web: gunicorn cadastro_veiculos.wsgi
+web: gunicorn cadastro_veiculos.wsgi:application
